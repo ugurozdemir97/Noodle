@@ -1,0 +1,878 @@
+/* ------------- FONTS --------------- */
+
+body, .regular, .bold, .thin {font-family: 'Roboto', sans-serif}
+.thin {font-weight: 200; font-size: 0.7rem;}
+.regular {font-weight: 400; font-size: 0.9rem;}
+.bold {font-weight: 600; font-size: 1rem;}
+
+/* --------- PAGE WRAPPERS ----------- */
+
+body {
+    height: 100%;
+    background-color: rgb(155, 139, 165)
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 16px);  /* Cover up whole page - body's padding*/
+    box-sizing: border-box;
+    border-radius: 11px;  /* Just for the shadow */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+}
+
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    vertical-align: middle;
+    flex-direction: column;
+    row-gap: 10px;
+    width: 30%;
+    min-width: 380px;
+    height: 550px;
+    margin: 70px auto;
+    padding: 40px;
+    box-sizing: border-box;
+    background-color: rgb(16, 11, 58);
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4)
+}
+
+/* --------- Change and Display Picture Overlays ---------- */
+
+.overlay {
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    width: 40%;
+    height: 80%;
+    background-color: rgb(205, 205, 205);
+    border-radius: 10px;
+    display: flex;
+    padding: 20px;
+}
+
+.uploadPicForm {  /* Change picture form */
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    row-gap: 10px;
+}
+
+input[type="file"] {display: none}
+
+.fileUpload {  /* Custom file input */
+    border: 1px solid #424242;
+    background-color: #424242;
+    color: white;
+    display: inline-block;
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    line-height: 40px;
+    text-align: center;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.fileUpload:hover {background-color: #526bbf}
+
+/* ---------- SCROLL BAR ------------- */
+
+::-webkit-scrollbar {width: 10px}
+::-webkit-scrollbar-track {background: #f1f1f1}
+::-webkit-scrollbar-thumb {background: #888; border-radius: 2px}
+::-webkit-scrollbar-thumb:hover {background: #555}
+
+/* ------------ IMAGES --------------- */
+
+.logo {  /* Noodle logo on sign up - login page*/
+    aspect-ratio: 1;
+    max-height: 70%;
+    min-height: 40%;
+}
+
+.miniLogo {  /* Noodle text on header */
+    height: 50px; 
+    width: 164px; 
+    margin-left: 30px
+} 
+
+.logo img, .miniLogo img {width: 100%; height: 100%}
+
+
+img {user-select: none}
+
+.bigPicture {  /* Images in profile cards */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px; height: 180px;
+    background-color: rgb(41, 35, 92);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.displayImage {  /* Full size display image wrapper when you upload a photo */
+    height: 90%;
+    aspect-ratio: 1/1;
+    margin-bottom: 10px;
+    background-color: rgb(172, 172, 172);
+}
+
+.newImage {width: 100%;}  /* Full size display image when you upload a photo */
+
+.roundImage {border-radius: 100%} /* All circular photos */
+
+.fullSizeImage {  /* Your friend's full size image */
+    aspect-ratio: 1/1;
+    height: 80%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+/* ------- FONT AWESOME SETTTINGS ------- */
+
+i {
+    color: white;
+    cursor: pointer
+}
+
+#arrow {  /* Side menu arrow icon */
+    display: none;
+    position: absolute;
+    top: 50%; left: 4px;
+    transform: translateY(-50%);
+}
+
+.searchIcon, .addIcon {  /* Search buttons, add friend button */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; 
+    height: 28px;
+    padding: 5px;
+    border-radius: 100%;
+    cursor: pointer
+}
+
+.searchIcon {background-color: rgb(73, 73, 113)}
+.searchIcon:hover {background-color: rgb(104, 104, 148)}
+
+.addIcon {background-color: rgb(16, 11, 58)}
+.addIcon:hover {background-color: rgb(41, 35, 92)}
+
+.foundMessagesButtons {  /* Buttons' wrapper when searching messages */
+    position: absolute;
+    left: -22px; bottom: -4px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+}
+
+.foundMessagesButtons div {  /* Previous - Next found message buttons */
+    background-color: #717171;
+    cursor: pointer;
+    height: 15px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+}
+
+.foundMessagesButtons div:hover {background-color: #526bbf}
+
+/* ------ LOGIN AND SIGNUP -------- */
+
+.loginForm, .signUpForm, .formButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%
+}
+
+.loginForm, .signUpForm {
+    flex-direction: column;
+    row-gap: 10px
+}
+
+.formButtons {
+    flex-direction: row;
+    column-gap: 10px
+}
+
+input, button {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid rgb(0, 0, 0);
+    box-sizing: border-box
+}
+
+button {
+    cursor: pointer;
+    background-color: rgb(20, 174, 63);
+    color: white
+}
+
+button:hover {background-color: rgb(255, 25, 25)}
+
+.passwordBar {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.securityLevel {
+    height: 20px;
+    border-radius: 10px 0 0 10px;
+}
+
+.securityNumber {
+    text-align: center;
+    position: absolute;
+    left: 0; right: 0;
+    font-size: 13px;
+    line-height: 20px;
+}
+
+.warning {
+    background-color: #d6c484;
+    padding: 5px;
+    width: 90%;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.warning i {color: rgb(200, 0, 0)}
+
+/* ------ HEADER AND FOOTER ------- */
+
+header, .footer {  /* Main header and footer */
+    background-color: rgb(12, 8, 52);
+    border-style: solid;
+    border-color: rgb(221, 230, 255)
+}
+
+.footer {
+    min-height: 40px;
+    color: white; 
+    text-align: center; 
+    line-height: 40px
+}
+
+.footer, .chatFooter {
+    border-radius: 0 0 11px 11px;
+    border-width: 2px 0 0 0
+}
+
+.chatHeader, .chatFooter {  /* When you open a chat, another set of header and footer is shown */
+    background-color: rgb(16, 13, 40);
+    border-style: solid;
+    border-color: rgb(39, 76, 176)
+}
+
+header, .chatHeader, .friendHeader {  /* All headers */
+    display: grid;
+    align-items: center;
+    column-gap: 8px;
+    box-sizing: border-box;
+    border-radius: 11px 11px 0 0;
+    border-width: 0 0 2px 0
+}
+
+header {
+    min-height: 70px;
+    grid-template-columns: 1fr 150px
+}
+
+.chatHeader {
+    grid-template-columns: 250px 1fr;
+    height: 55px
+}
+
+.chatHeaderUser {  /* When you open the chat, your friend's online status, name and profile card */
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+    color: white
+}
+
+.sideButtons {  /* Buttons and search bar on the chat header */
+    display: grid;
+    grid-template-columns: 1fr 20px;
+    align-items: center;
+}
+
+.friendHeader {  
+    grid-template-columns: 1fr 40px;
+    padding: 8px
+}
+
+.chatFooter {
+    display: grid;
+    grid-template-columns: 35px 1fr 35px;
+    padding: 10px;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    column-gap: 10px;
+    align-items: center;
+    min-height: 55px;
+    max-height: 140px;
+
+}
+
+.search input {height: 25px; display: none;}
+.search {position: relative; width: 100%;}
+
+/* ---------------- Profile -------------------*/
+
+.profilePic {  /* Profile card */
+    position: relative;
+    width: 45px; height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    background-color: rgb(57, 57, 57);
+    cursor: pointer
+}
+
+.chatHeader .profilePic {margin-left: 20px}
+
+.profileCard {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+header .profileCard {
+    row-gap: 10px;
+    padding: 20px;
+}
+
+.chatHeader .profileCard {
+    row-gap: 20px;
+    padding: 35px 20px;
+}
+
+.profileIcons {  /* Bell and notfications */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.logout {  /* Logout button */
+    width: 180px; height: 30px;
+    background-color: rgb(255, 25, 25);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    user-select: none
+}
+
+.logout:hover {background-color: black}
+
+.lightText:hover, .lightTextUp:hover {opacity: 100%;}  /* Delete and change picture buttons on profile photo */
+
+.lightText, .lightTextUp {
+    position: absolute;
+    text-align: center;
+    height: 80px;
+    opacity: 0;
+}
+
+.lightText {
+    bottom: 10px; left: 10px; right: 10px;
+    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+    line-height: 130px
+}
+
+.lightTextUp {
+    top: 10px; left: 10px; right: 10px;
+    background: linear-gradient(180deg, rgb(162, 0, 0) 0%, rgba(255,255,255,0) 100%);
+    line-height: 30px;
+    color: white
+}
+
+.usernameCard {
+    display: grid;
+    column-gap: 5px;
+}
+
+.usernamePen {
+    text-align: center;
+    width: 30px; height: 30px;
+    border-radius: 100%;
+    box-sizing: border-box;
+    background-color: rgb(41, 35, 92);
+    padding: 5px;
+}
+
+.usernamePen:hover {background-color: rgb(73, 67, 128)}
+
+header .usernameCard {grid-template-columns: 145px 30px}
+.chatHeader .usernameCard {grid-template-columns: 180px}
+
+.bigUsername {
+    height: 30px;
+    background-color: rgb(41, 35, 92);
+    border-radius: 5px;
+    text-align: center;
+    line-height: 30px;
+    color: white;
+    user-select: none
+}
+
+/* -------------- Text Editor ---------------- */
+
+.textQuoteArea {  /* quote area wrapper */
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+.quoteArea {
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.emoji, .sendMessage {text-align: center;}
+
+.emoji {position: relative;}
+
+emoji-picker {
+    position: absolute;
+    bottom: 25px; left: 25px;
+    border-radius: 5px;
+    user-select: none;
+}
+
+.textEditor {
+    background-color: rgb(53, 49, 89);
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    max-height: 120px;
+    font-size: 15px;
+    color: white;
+    overflow-y: auto;
+}
+
+/* --------- Popups and Notifications --------- */
+
+.popup {
+    position: absolute;
+    z-index: 3;
+    width: 250px; height: 300px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    background-color: rgb(155, 139, 165);
+    cursor: default
+}
+
+.profilePic .popup {height: auto; min-height: 300px}
+
+.popup::after {
+    content: "";
+    position: absolute;
+    top: -12px;
+    border-width: 7px;
+    border-style: solid;
+}
+
+.bell {position: relative}
+
+.notification, .chatNotification {
+    position: absolute;
+    top: 5px; left: 10px;
+    width: 20px; height: 20px;
+    border-radius: 100%;
+    background-color: rgb(224, 0, 0);
+    font-size: 10px;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    user-select: none
+}
+
+.myFriends .chatNotification {top: auto; left: 5px; bottom: 10px}
+
+.notifications {
+    display: flex;
+    column-gap: 10px;
+    margin-bottom: 5px;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.notifications .bold, .notifications .regular {font-size: 12px}
+
+.notificationScroll {
+    width: 100%; height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+header .popup {top: 59px; right: 20px; border-radius: 10px 0 10px 10px}
+.chatHeader .popup {top: 52px; left: 20px; border-radius: 0 10px 10px 10px;}
+.bell .popup {top: 45px; right: 10px; border-radius: 10px 0 10px 10px}
+
+header .popup::after, .bell .popup::after {
+    border-color: transparent rgb(155, 139, 165) rgb(155, 139, 165) transparent;
+    right: 0
+}
+
+.chatHeader .popup::after {
+    border-color: transparent transparent rgb(155, 139, 165) rgb(155, 139, 165);
+    left: 0
+}
+
+/* ----- NAVBAR / TABLET SIZE -----*/
+
+nav {
+    background-color: rgb(20, 174, 63);
+    height: 30px;
+    display: none;
+}
+
+.navButton {
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    color: white;
+    line-height: 30px;
+    user-select: none
+}
+
+.navActive {background-color: rgb(51, 203, 94)}
+
+.navButton:hover {
+    background-color: rgb(103, 218, 136);
+    cursor: pointer
+}
+
+/* ------- CHAT AREA --------*/
+
+.main {
+    display: flex;
+    position: relative;
+    column-gap: 10px;
+    height: calc(100% - 112px);
+    padding: 10px;
+    background-color: rgb(38, 37, 49);
+    box-sizing: border-box;
+}
+
+.chat {
+    position: relative;
+    width: 100%;
+}
+
+.chatArea {
+    display: flex;
+    flex-direction: column;  /* column-reverse will always scroll from bottom. In index.js you need to use prepend() instead of append() */
+    max-height: calc(100% - 112px);
+    flex: 1;
+    padding: 10px
+}
+
+/* ------------ Friends Area ------------- */
+
+.friends {
+    width: 400px;
+    overflow-x: hidden;
+    z-index: 1;
+    position: relative
+}
+
+.friendsArea {height: calc(100% - 57px)}
+
+.noFriends {  
+    text-align: center;
+    margin-top: 20px
+}
+
+.newFriend, .addedFriend {
+    display: flex;
+    justify-content: space-between;
+}
+
+.iconHolder {  /* Add friend buttons */
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 31px; width: 31px;
+    text-align: center;
+    margin-left: 6px;
+    padding-left: 6px;
+    border-radius: 20px;
+}
+
+.iconHolder:hover {box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);}
+
+.sideMenu {
+    display: none;
+    z-index: 2;
+    position: relative
+}
+
+.lastMessages {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    position: relative;
+    align-items: center;
+    column-gap: 15px;
+    padding: 10px;
+    border-width: 0 0 1px 0;
+    border-color: black;
+    border-style: solid;
+    user-select: none;
+    cursor: pointer
+}
+
+.lastMessages:hover {background-color: rgb(107, 107, 153)}
+
+.lastMessage {
+
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    width: 200px; 
+    white-space: nowrap;
+}
+
+.friendDetail {
+    display: flex;
+    flex-direction: column
+}
+
+.lastMessageTime {
+    position: absolute;
+    right: 5px; bottom: -12px;
+}
+
+/* ---- Chat and Friends Area ---- */
+
+.friends, .chat {
+    border-radius: 11px;
+    height: 100%;
+    background-color: rgb(73, 73, 113);
+    box-sizing: border-box;
+}
+
+.chatArea, .friendsArea {
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+
+/* -------- Message Box ---------- */
+
+.messageBox {
+    display: flex;
+    width: 100%
+}
+
+.rightBox, .leftBox {
+    position: relative;
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 70%;
+    min-width: 110px;
+    margin-bottom: 5px;
+    padding: 10px; padding-bottom: 17px;
+    border-radius: 5px;
+}
+
+.rightBox {
+    background-color: rgb(20, 174, 63);
+    margin-left: auto; 
+    margin-right: 10px
+}
+
+.leftBox {
+    background-color: rgb(160, 177, 209);
+    margin-left: 10px
+}
+
+.quoteButton {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 100%;
+    height: 34px; width: 34px;
+    top: 0; bottom: 0;
+    margin: auto 0;
+    background-color: #181849;
+    display: none;
+}
+
+.messageQuote {
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 5px;
+    margin-bottom: 5px;
+    max-height: 45px;
+    font-size: 13px;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.quoteArea .messageQuote {
+    background-color: rgb(53, 49, 89);
+    color: white;
+}
+
+.quoteFrom {font-weight: 600;}
+
+.messageBox:hover .quoteButton {display: flex;}
+
+.leftBox .quoteButton {right: -40px;}
+.rightBox .quoteButton {left: -40px;}
+
+.leftBox .lastMessageTime, 
+.rightBox .lastMessageTime {
+    right: 10px; bottom: 5px;
+}
+
+mark {background: orange}  /* Mark.js */
+
+/* --------- Message Box Arrows ---------- */
+
+.leftMessageBox:first-child .leftBox::after,
+.rightMessageBox:first-child .rightBox::after,
+.rightMessageBox + .leftMessageBox .leftBox::after, 
+.leftMessageBox + .rightMessageBox .rightBox::after {
+    content: "";
+    position: absolute;
+    top: 0; 
+    border-width: 8px;
+    border-style: solid;
+}
+
+.rightMessageBox + .leftMessageBox .leftBox::after {
+    left: -13px;
+    border-color: rgb(160, 177, 209) rgb(160, 177, 209) transparent transparent;
+}
+
+.leftMessageBox + .rightMessageBox .rightBox::after {
+    right: -13px;
+    border-color: rgb(20, 174, 63) transparent transparent rgb(20, 174, 63);
+}
+
+.leftMessageBox:first-child .leftBox::after {
+    left: -13px;
+    border-color: rgb(160, 177, 209) rgb(160, 177, 209) transparent transparent;
+}
+
+.rightMessageBox:first-child .rightBox::after {
+    right: -13px;
+    border-color: rgb(20, 174, 63) transparent transparent rgb(20, 174, 63);
+}
+
+/* ------- GENERAL CLASSES --------- */
+
+.hidden {display: none}
+
+/* -------- MEDIA QUERIES --------- */
+
+/* Smartphones */
+@media only screen and (max-width : 767.9px) {
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+    .friends {width: 100%;}
+    .chat {display: none;}
+
+    .main {height: calc(100% - 142px);}
+
+    .headerUsername {font-size: 10px;}
+    .lastSeen {font-size: 10px;}
+    .chatHeader {grid-template-columns: 150px 1fr}
+    .friendHeader {grid-template-columns: 1fr 40px}
+
+    .modal {
+        width: 80%;
+        height: auto;
+    }
+
+    .displayImage {  /* Full size display image wrapper when you upload a photo */
+        width: 90%;
+    }
+
+    .fullSizeImage {  /* Your friend's full size image */
+        width: 80%;
+        height: auto;
+    }
+}
+ 
+/* Tablets */
+@media only screen and (min-width : 768px) and (max-width : 1223.9px) {
+
+    .sideMenu {
+        display: block;
+        width: 20px;
+        border-radius: 10px; 
+        background-color: rgb(20, 174, 63)
+    }
+
+    .sideMenu:hover {
+        cursor: pointer;
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    }
+
+    .friends {
+        position: absolute;
+        top: 10px; bottom: 10px;
+        height: calc(100% - 20px);
+        display: none;
+        background-color: #3e3b64;
+        border-radius: 10px 0 0 10px
+    }
+
+    .friendHeader {border-radius: 10px 0 0 0}
+    #arrow {display: block;}
+
+    .modal {width: auto}
+
+}
+ 
+/* Desktops and laptops */
+@media only screen and (min-width : 1224px) {
+    .friends {
+        position: relative;
+        top: auto; bottom: auto;
+        height: 100%;
+        display: block;
+        background-color: rgb(73, 73, 113);
+        border-radius: 10px
+    }
+
+    .friendHeader {border-radius: 10px 10px 0 0}
+}
