@@ -1,0 +1,21 @@
+These are what will we need for what reason. If we were writing this app from scratch we would setup this way:
+
+Open terminal: 
+npm init -y (Creates package.json)
+npm i express (Adds the main library)
+npm i --save-dev nodemon (A library that runs the server automatically after you made a change)
+npm i bcrypt (Handle passports and authentication)
+npm i mongoose (Database)
+npm i express-session (Handle logged in and authorized informations)
+npm i multer (Handle uploading profile pictures)
+npm i cropperjs (A library for cropping images before uploading)
+npm i socket.io (Handle communication between server and client / user to user chat, notifications, online - offline information)
+npm i socket.io-client (I actually used CDN so I don't know if installing this module is necessary)
+npm i rate-limiter-flexible  (This will be used to rate limit users from sending too many requests to the server)
+npm i dotenv (Handle environment variables)
+
+Open package.json:
+Delete "test" under "scripts" and write:
+"devStart": "nodemon server.js" (When you write npm run devStart, the file called server.js will work)
+
+Create server.js
