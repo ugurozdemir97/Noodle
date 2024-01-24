@@ -1,0 +1,357 @@
+<%- include("partials/header") -%>
+
+    <% if (locals.loggedIn) { %>
+        <!-- If user is logged in -->
+        <main data-user="<%= (locals.user._id).toString() %>">
+
+            <!-- This overlay shows up when you try to change profile picture -->
+            <div class="overlay changePic hidden" onclick="closeOverlay()">
+                <div class="modal" onclick="event.stopPropagation();">
+
+                    <!-- After you select a picture / Crop and upload -->
+                    <form class="uploadPicForm" method="POST" action="/uploadImage" enctype="multipart/form-data">
+                        <div class="displayImage">
+                            <img id="cropImage" class="newImage" src="/images/<%= locals.user.picture %>">
+                        </div>
+                        <div class="picError"></div>  <!-- Show Error messages -->
+                        <div class="formButtons">
+                            <label for="picUpload" class="fileUpload">
+                                <i class="fa fa-cloud-upload"></i> Select File
+                            </label>
+                            <input id="picUpload" type="file" accept=".jpg, .png, .webp" name="profilePic" onchange="selectFile(this)"/>
+                            <button type="submit">Upload Image</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- This overlay shows when you view your friends' profile pictures -->
+            <div class="overlay friendPic hidden" onclick="closeOverlay()">
+                <img class="fullSizeImage" src="" alt="profilePic" onclick="event.stopPropagation();">
+            </div>
+
+            <!-- Main header -->
+            <header>
+
+                <div class="miniLogo">
+                    <img src="/images/NoodleMiniLogo.png">
+                </div>
+                
+                <div class="profileIcons">
+                    <div class="bell popupButton" data-show="1" onclick="showProfileCard(this)">
+                        <i class="fa-solid fa-lg fa-bell"></i>
+
+                        <!-- If there are notifications -->
+                        <div class="notification hidden"></div>
+
+                        <!-- Fill this with notifications using socket.io -->
+                        <div class="popup hidden">
+                            <div class="notificationScroll">  
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Change profile picture and username -->
+                    <div class="profilePic popupButton" onclick="showProfileCard(this)" style="background-color: #00ff00;">
+                        <img class="roundImage" src="/images/<%= locals.user.picture %>" alt="profilePic" width="40" height="40">
+                        <div class="popup hidden">
+                            <div class="profileCard">
+                                <div class="bigPicture">
+                                    <div class="lightTextUp bold" onclick="deletePic()">Click To Delete</div>
+                                    <div class="lightText bold" onclick="showChangePic()">Click To Change</div>
+                                    <img class="userImg" src="/images/<%= locals.user.picture %>" alt="profilePic" width="160" height="160">
+                                </div>
+
+                                <!-- When there is no username -->
+                                <div class="dontHaveUsername">
+                                    <% if (!locals.user.username) { %>
+                                        You don't have a username. Please create one for people to find you!
+                                    <% } %> 
+                                </div>   
+                                <div class="usernameCard"> 
+                                    <% if (!locals.user.username) { %>
+                                        <div class="bigUsername usernameEdit bold" 
+                                            data-name="<%= locals.user.firstName + ' ' + locals.user.lastName %>"
+                                            data-username="<%= locals.user.firstName + ' ' + locals.user.lastName %>">
+                                            <%= locals.user.firstName + ' ' + locals.user.lastName %>
+                                        </div>    
+                                    <% } else { %>
+                                        <div class="bigUsername usernameEdit bold" 
+                                            data-name="<%= locals.user.firstName + ' ' + locals.user.lastName %>"
+                                            data-username="<%= locals.user.username %>">
+                                            <%= locals.user.username %>
+                                        </div>  
+                                    <% } %>
+                                    <div class="usernamePen" onclick="changeUsername(this)">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </div>
+                                </div>
+                                <form action="/logout" method="POST">
+                                    <button class="logout regular" type="submit">LOG OUT</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- This navbar will be visible in small screens -->
+            <nav>
+                <div class="navButton navActive navFriends" onclick="showFriends()">Friends</div>
+                <div class="navButton navChat" onclick="showChatArea()">Chat</div>
+            </nav>
+
+            <!-- Side menu and chat area -->
+            <div class="main">
+
+                <!-- This bar will be visible in tablet size -->
+                <div class="sideMenu" onclick="showSideMenu()">
+                    <i id="arrow" class="fa-solid fa-chevron-right"></i>
+                </div>
+
+                <!-- Side menu -->
+                <div class="friends">
+                    <div class="chatHeader friendHeader">
+                        <div class="search">
+                            <input class="searchUser" type="text" placeholder="Username" oninput="searchUsers()">
+                        </div>
+                        <div class="searchIcon" onclick="toggleSearch(this)">
+                            <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+                        </div>
+                    </div>
+                    <div class="friendsArea">
+                        <% if (locals.user.friends.length > 0) { %>
+                            <% for (let i = 0; i < locals.user.friends.length; i++) { %>
+
+                                <% if ((locals.user.friends[i].requester._id).toString() != (locals.user._id).toString()) {%>
+                                    <% var friendId = (locals.user.friends[i].requester._id).toString() %>
+                                    <% var friendPic = locals.user.friends[i].requester.picture %>
+                                    <% var lastSeen = locals.user.friends[i].requester.lastSeen %>
+                                    <% if (locals.user.friends[i].requester.username) { %>
+                                        <% var friend = locals.user.friends[i].requester.username %>
+                                    <% } else { %>
+                                        <% var friend = locals.user.friends[i].requester.firstName + " " + locals.user.friends[i].requester.lastName %>
+                                    <% } %> 
+                                <% } else { %>
+                                    <% var friendId = (locals.user.friends[i].receiver._id).toString() %>
+                                    <% var friendPic = locals.user.friends[i].receiver.picture %>
+                                    <% var lastSeen = locals.user.friends[i].receiver.lastSeen %>
+                                    <% if (locals.user.friends[i].receiver.username) { %>
+                                        <% var friend = locals.user.friends[i].receiver.username %>
+                                    <% } else { %>
+                                        <% var friend = locals.user.friends[i].receiver.firstName + " " + locals.user.friends[i].receiver.lastName %>
+                                    <% } %> 
+                                <% } %>
+
+                                <% if (locals.user.friends[i].status == 1) { %> 
+                                    
+                                    <!-- If friend -->
+                                    <div class="lastMessages myFriends" 
+                                        data-friends="<%- friend %>" 
+                                        data-friendId="<%- friendId %>"
+                                        data-picture="/images/<%- friendPic %>" 
+                                        data-friendship="<%= (locals.user.friends[i]._id).toString() %>" 
+                                        data-order="2" 
+                                        data-lastseen="<%- lastSeen %>"
+                                        data-lastseenmessage="<%= locals.user.friends[i].lastSeenMessage %>"
+                                        onclick="showChat(this)">
+                                        <div class="profilePic">
+                                            <img class="roundImage" src="/images/<%- friendPic %>" alt="profilePic" width="40" height="40">
+                                        </div>
+                                        <div class="friendDetail">
+                                            <div class="usernames bold"><%- friend %></div>
+                                            <% if (locals.user.friends[i].messages.length > 0) { %>
+                                                <div style="position: relative;">
+                                                    <div class="lastMessage regular">
+                                                        <!-- If there is a quote -->
+                                                        <% let message = locals.user.friends[i].messages.slice(-1)[0].message %>                     
+                                                        <% if (message.includes('class="messageQuote"')) { %>
+                                                            <% message = message.split('<i></i>')[1] %>
+                                                            <%- message.split('<br>')[0] %>
+                                                        <% } else { %>
+                                                            <%- message.split('<br>')[0] %>
+                                                        <% } %>                     
+                                                    </div>
+                                                    <div class="lastMessageTime thin" data-date="<%= locals.user.friends[i].messages.slice(-1)[0].date %>"></div>
+                                                </div>
+                                            <% } else { %>
+                                                <div style="position: relative;">
+                                                    <div class="lastMessage regular"></div>
+                                                    <div class="lastMessageTime thin"></div>
+                                                </div>
+                                            <% } %>       
+                                        </div>
+                                        <% if (locals.user.friends[i].unseenMessageCount.count > 0 && (locals.user.friends[i].unseenMessageCount.for).toString() == (locals.user._id).toString()) { %>
+                                            <div class="chatNotification"><%= locals.user.friends[i].unseenMessageCount.count %></div>
+                                        <% } else { %>
+                                            <div class="chatNotification hidden">0</div>
+                                        <% } %>
+                                        
+                                    </div>
+                                <% } else { %>
+                                    <% if ((locals.user.friends[i].requester._id).toString() != (locals.user._id).toString()) {%>
+
+                                        <!-- If request is sent to the user -->
+                                        <div class="lastMessages" data-friends="<%- friend %>" data-id="<%- friendId %>" data-order="1">
+                                            <div class="profilePic">
+                                                <img class="roundImage" src="/images/<%- friendPic %>" alt="profilePic" width="40" height="40">
+                                            </div>
+                                            <div class="newFriend">
+                                                <div class="usernames bold"><%- friend %></div>
+                                                <div style="display: flex;">
+                                                    <div class="iconHolder" style="background-color: rgb(0, 168, 39)" 
+                                                        data-username="<%- friend %>" 
+                                                        data-friendship="<%= (locals.user.friends[i]._id).toString() %>" 
+                                                        data-friendId="<%- friendId %>"
+                                                        data-picture="/images/<%- friendPic %>"
+                                                        data-lastseen="<%- lastSeen %>"
+                                                        onclick="acceptFriend(this)">
+                                                        <i class="fa-solid fa-lg fa-check"></i>
+                                                    </div>
+                                                    <div class="iconHolder" style="padding-left: 8px; background-color: rgb(172, 0, 0)" data-id="<%- friendId %>" data-friendship="<%= (locals.user.friends[i]._id).toString() %>" onclick="denyFriend(this)">
+                                                        <i class="fa-solid fa-lg fa-xmark"></i>
+                                                    </div>        
+                                                </div>                                     
+                                            </div>
+                                        </div>
+                                    <% } else { %>
+
+                                        <!-- If user sent the request -->
+                                        <div class="lastMessages" data-friends="<%- friend %>" data-id="<%- friendId %>" data-order="3">
+                                            <div class="profilePic">
+                                                <img class="roundImage" src="/images/<%- friendPic %>" alt="profilePic" width="40" height="40">
+                                            </div>
+                                            <div class="addedFriend">
+                                                <div class="usernames bold"><%- friend %></div>
+                                                <div class="iconHolder" style="background-color: rgb(109, 109, 109)" data-id="<%- friendId %>" onclick="cancelFriend(this)">
+                                                    <i class="fa-solid fa-user-minus"></i>
+                                                </div>                                          
+                                            </div>
+                                        </div>
+                                    <% } %>            
+                                <% } %>
+                            <% } %>   
+                        <% } else { %>
+
+                            <!-- If there are no friends -->
+                            <div class="noFriends">
+                                You have no friends :( 
+                                    <br>
+                                Find your friends to chat!
+                            </div>
+                        <% } %>
+                    </div>
+
+                </div>
+
+                <!-- Chat area -->
+                <div class="chat">
+
+                    <!-- Friend picture, search bar. Show this when you click on a friend -->
+                    <div class="chatHeader hidden">
+                        <div class="chatHeaderUser">
+                            <div class="profilePic popupButton" onclick="showProfileCard(this)">
+                                <img class="roundImage" src="" alt="profilePic" width="40" height="40">
+                                <div class="popup hidden">
+                                    <div class="profileCard">
+                                        <div class="bigPicture" onclick="showFriendPic()">
+                                            <img src="" alt="profilePic" width="160" height="160">
+                                        </div>
+                                        <div class="usernameCard">
+                                            <div class="bigUsername bold"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="headerUsername bold"></div>
+                                <div class="lastSeen thin"></div>
+                            </div>
+                        </div>
+                        <div class="sideButtons">
+                            <div class="friendHeader">
+                                <div class="search">
+                                    <div class="foundMessagesButtons hidden">
+                                        <div class="previousFound"><i class="fa-solid fa-caret-up"></i></div>
+                                        <div class="nextFound"><i class="fa-solid fa-caret-down"></i></div>
+                                    </div>
+                                    <input class="searchMessages" type="text" placeholder="Message" oninput="searchMessages()">
+                                </div>
+                                <div class="searchIcon" onclick="toggleSearch(this)">
+                                    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+                                </div>
+                            </div>
+                            <div class="chatSettings">
+                                <i class="fa-solid fa-ellipsis-vertical fa-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- All the messages will be here -->
+                    <div class="chatArea hidden"></div>
+
+                    <!-- Type and send messages -->
+                    <div class="chatFooter hidden">
+                        
+                        <div class="emoji" onclick="showEmojiPicker()">
+                            <i class="fa-regular fa-face-smile fa-lg"></i>
+                            <emoji-picker class="dark hidden"></emoji-picker>
+                        </div>  
+                        <div class="textQuoteArea">
+                            <div class="quoteArea" onclick="clearQuote()"></div>  <!-- Place Quotes Here-->
+                            <div class="textEditor" role="textbox" contenteditable="true"></div>     
+                        </div>
+                        <div class="sendMessage" onclick="saveMessages()">
+                            <i class="fa-solid fa-paper-plane fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer thin">
+                <i class="fa-regular fa-copyright"></i> 2024 Uğur Özdemir
+            </div>
+        </main>
+    <% } else { %>
+
+        <!-- Main page before logging in-->
+        <div class="login">
+            <div class="logo">
+                <img src="/images/NoodleLogo.png">
+            </div>
+
+            <!-- Login -->
+            <form class="loginForm" action="/login" method="POST">
+                <input class="emailLogin" placeholder="Email" autocomplete="username" type="email" name="email" required>
+                <input class="passwordLogin" placeholder="Password" type="password" autocomplete="current-password" name="password" required>
+                <div class="warning hidden"></div>
+                <div class="formButtons">
+                    <button type="button" onclick="changeLogin()">SIGN UP</button>
+                    <button type="button" onclick="login()">LOGIN</button>
+                </div>
+            </form>
+
+            <!-- Sign Up-->
+            <form class="signUpForm hidden" action="/new-user" method="POST">
+                <div class="formButtons">
+                    <input class="firstNameSignup" placeholder="First Name" type="text" name="firstName" required>
+                    <input class="lastNameSignup" placeholder="Last Name" type="text" name="lastName" required>
+                </div>
+                <input class="emailSignup" placeholder="Email" autocomplete="username" type="email" name="email" required>
+                <input class="passwordSignup" placeholder="Password" type="password" autocomplete="new-password" name="password" required oninput="passwordChecker()">
+                <input class="passwordSignupConfirm" placeholder="Confirm Password" autocomplete="new-password" type="password" required>
+                <div class="passwordBar">
+                    <div class="securityNumber"></div>
+                    <div class="securityLevel"></div>
+                </div>
+                <div class="warning hidden"></div>
+                <div class="formButtons">
+                    <button type="button" onclick="changeLogin()">LOGIN</button>
+                    <button type="button" onclick="signUp()">SIGN UP</button>
+                </div>
+            </form>
+        </div>
+    <% } %>
+
+<%- include("partials/footer") -%>
