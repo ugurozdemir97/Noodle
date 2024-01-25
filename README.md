@@ -19,8 +19,13 @@ For now, you can search for users, add friends, chat with them if they accept, q
 
 # Installation
 Type "npm install" in terminal.
-Create a .env file in the main folder that consist:
+
+Create a ".env" file in the main folder that consist:
+
 MONGOOSE=yourDataBaseConnection
+
 SECRET=aSecretKey (a long string)
+
 PORT=yourPortNumber
+
 Then to run the application type "npm run devStart" in the terminal.
