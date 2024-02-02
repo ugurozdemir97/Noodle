@@ -13,7 +13,7 @@ For now, you can search for users, add friends, chat with them if they accept, q
 
 4-) Change password or email - Remember password
 
-5-) Playing games
+5-) Playing simple games with the person you are chatting
 
 6-) Group chat - Though, this one was not my idea at the beginning so the database structure may need to change entirely (eg: friends, users, messages)
 
