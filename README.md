@@ -24,6 +24,12 @@ Create a ".env" file in the main folder that consist:
 
 MONGOOSE=yourDataBaseConnection
 
+SECRET=aSecretKey (a long string)
+
+PORT=yourPortNumber
+
+Then to run the application type "npm run devStart" in the terminal.
+
 # These are some functionalities
 
 It has a password checker that tells you how secure your password is.
@@ -49,9 +55,3 @@ It has emoji and message quoting system. And it will automatically scroll you to
 And you can search for messages
 
 ![Search](https://github.com/ugurozdemir97/myprojects/assets/64408736/4891cb1e-afba-40c3-b1c7-ca7e3492a501)
-
-SECRET=aSecretKey (a long string)
-
-PORT=yourPortNumber
-
-Then to run the application type "npm run devStart" in the terminal.
